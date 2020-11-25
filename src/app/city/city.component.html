@@ -1,14 +1,14 @@
-<div class="course">
+<div class="city">
 
     <mat-form-field>
-        <input matInput placeholder="Search lessons" #input>
+        <input matInput placeholder="Search cities" #input>
     </mat-form-field>
 
     <div class="spinner-container" *ngIf="dataSource.loading$ | async">
         <mat-spinner></mat-spinner>
     </div>
 
-<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource"
+<mat-table class="cities-table mat-elevation-z8" [dataSource]="dataSource"
                matSort matSortActive="seqNo" matSortDirection="asc" matSortDisableClear>
 
   <ng-container matColumnDef="id">

@@ -5,7 +5,7 @@ import { MatSort } from "@angular/material/sort";
 import {CityService} from "../services/city.service";
 import {debounceTime, distinctUntilChanged, startWith, tap, delay, map} from 'rxjs/operators';
 import {merge, fromEvent} from "rxjs";
-import {LessonsDataSource} from "../services/lessons.datasource";
+import {CitiesDataSource as CitiesDataSource} from "../services/cities.datasource";
 
 
 @Component({
@@ -15,10 +15,9 @@ import {LessonsDataSource} from "../services/lessons.datasource";
 })
 export class CityComponent implements OnInit, AfterViewInit {
 
-    // city:Course;
-    pageLength=0;
+    pageLength=0; 
 
-    dataSource: LessonsDataSource;
+    dataSource: CitiesDataSource;
 
     displayedColumns= [ 'id', 'city', 'start_Date', 'end_Date', 'price', 'status', 'color',];
 
@@ -37,9 +36,9 @@ export class CityComponent implements OnInit, AfterViewInit {
 
         // this.city = this.route.snapshot.data["city"];
 
-        this.dataSource = new LessonsDataSource(this.cityService);
+        this.dataSource = new CitiesDataSource(this.cityService);
 
-        this.dataSource.loadLessons('', 'asc', 0, 10);
+        this.dataSource.loadCities('', 'asc', 0, 10);
     }
 
     ngAfterViewInit() {
@@ -53,21 +52,21 @@ export class CityComponent implements OnInit, AfterViewInit {
                 tap(() => {
                     this.paginator.pageIndex = 0;
 
-                    this.loadLessonsPage();
+                    this.loadCityPage();
                 })
             )
             .subscribe();
 
         merge(this.sort.sortChange, this.paginator.page)
         .pipe(
-            tap(() => this.loadLessonsPage())
+            tap(() => this.loadCityPage())
         )
         .subscribe();
 
     }
 
-    loadLessonsPage() {
-        this.dataSource.loadLessons(
+    loadCityPage() {
+        this.dataSource.loadCities(
             this.input.nativeElement.value,
             this.sort.direction,
             this.paginator.pageIndex,

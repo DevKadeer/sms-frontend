@@ -18,28 +18,17 @@ url="https://localhost:5111";
         return this.http.get<City>(this.url+`/api/city/${cityId}`);
     }
 
-    findAllCourses(): Observable<City[]> {
+    findAllCities(): Observable<City[]> {
         return this.http.get(this.url+'/api/city')
             .pipe(
                 map(res => res['data'])
             );
     }
 
-    findAllCourseLessons(cityId:number): Observable<City[]> {
-        return this.http.get(this.url+'/api/lessons', {
-            params: new HttpParams()
-                .set('cityId', cityId.toString())
-                .set('pageNumber', "0")
-                .set('pageSize', "1000")
-        }).pipe(
-            map(res =>  res["data"])
-        );
-    }
-
-    findLessons(filter = '', sortOrder = 'asc',
+    getFilteredCities(filter = '', sortOrder = 'asc',
         pageNumber = 0, pageSize = 3):  Observable<City[]> {
 
-        return this.http.get(this.url+'/api/city/GetPaged', {
+        return this.http.get(this.url+'/api/city/GetFilteredCities', {
             params: new HttpParams()
                 .set('filter', filter)
                 .set('sortOrder', sortOrder)

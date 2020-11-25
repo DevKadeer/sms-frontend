@@ -1,6 +1,3 @@
-
-
-
 import {CollectionViewer, DataSource} from "@angular/cdk/collections";
 import {Observable, BehaviorSubject, of} from "rxjs";
 import {City} from "../model/city";
@@ -9,9 +6,9 @@ import {catchError, finalize} from "rxjs/operators";
 
 
 
-export class LessonsDataSource implements DataSource<City> {
+export class CitiesDataSource implements DataSource<City> {
 
-    private lessonsSubject = new BehaviorSubject<City[]>([]);
+    private citySubject = new BehaviorSubject<City[]>([]);
 
     private loadingSubject = new BehaviorSubject<boolean>(false);
 
@@ -22,29 +19,29 @@ export class LessonsDataSource implements DataSource<City> {
 
     }
 
-    loadLessons(filter:string,
+    loadCities(filter:string,
                 sortDirection:string,
                 pageIndex:number,
                 pageSize:number) {
 
         this.loadingSubject.next(true);
 
-        this.cityService.findLessons(filter, sortDirection,
+        this.cityService.getFilteredCities(filter, sortDirection,
             pageIndex, pageSize).pipe(
                 catchError(() => of([])),
                 finalize(() => this.loadingSubject.next(false))
             )
-            .subscribe(lessons => this.lessonsSubject.next(lessons));
+            .subscribe(city => this.citySubject.next(city));
 
     }
 
     connect(collectionViewer: CollectionViewer): Observable<City[]> {
         console.log("Connecting data source");
-        return this.lessonsSubject.asObservable();
+        return this.citySubject.asObservable();
     }
 
     disconnect(collectionViewer: CollectionViewer): void {
-        this.lessonsSubject.complete();
+        this.citySubject.complete();
         this.loadingSubject.complete();
     }
 
